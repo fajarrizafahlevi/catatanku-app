@@ -1,0 +1,170 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Jua', sans-serif;
+}
+
+#root {
+    background-color: eee;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: darkgreen;
+    color: white;
+    padding: 20px;
+}
+
+.search-bar {
+    width: 50%;
+}
+
+.search-bar__input {
+    width: 100%;
+}
+
+h2 {
+    color: darkgreen;
+}
+
+p {
+    font-size: small;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+    border: 2px solid gray;
+    border-radius: 20px;
+    padding: 20px;
+}
+
+input {
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+.note-input__character-limit {
+    color: gray;
+    text-align: right;
+    margin-bottom: 5px;
+}
+
+textarea {
+    height: 100px;
+    margin-top: 10px;
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 10px;
+}
+
+button {
+    margin-top: 20px;
+    border: none;
+    color: white;
+    padding: 10px;
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+.submit-button {
+    background-color: darkgreen;
+    border-radius: 10px;
+    width: 100%;
+}
+
+.note-app__body {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.active-notes,
+.archived-notes {
+    margin: 20px;
+    border: 2px solid gray;
+    border-radius: 20px;
+    padding: 20px;
+}
+
+.active-notes__list,
+.archived-notes__list {
+    margin-top: 20px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.note-item {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    border: 2px solid gray;
+    border-radius: 10px;
+    padding: 20px;
+}
+
+.note-item__date {
+    margin-top: 10px;
+    color: gray;
+}
+
+.note-item__body {
+    margin-top: 10px;
+}
+
+.note-item__action {
+    display: flex;
+    justify-content: right;
+}
+
+.delete-button {
+    border-radius: 7px;
+    background-color: darkred;
+}
+
+.archive-button {
+    margin-left: 10px;
+    border-radius: 7px;
+    background-color: darkorange;
+}
+
+.empty-message {
+    text-align: center;
+}
+
+@media (max-width: 600px) {
+
+    .active-notes__list,
+    .archived-notes__list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 450px) {
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .search-bar {
+        width: 100%;
+    }
+
+    .search-bar__input {
+        margin-top: 10px;
+        width: 100%;
+    }
+
+    .active-notes__list,
+    .archived-notes__list {
+        display: flex;
+        flex-direction: column;
+    }
+}
