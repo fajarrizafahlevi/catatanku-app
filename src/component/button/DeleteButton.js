@@ -1,22 +1,13 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { FiTrash2 } from 'react-icons/fi';
 import PropTypes from 'prop-types';
+import { FiTrash2 } from 'react-icons/fi';
 
-function DeleteButton({ id, onDelete }) {
-  const navigate = useNavigate();
-
-  function onDeleteHandler(id) {
-    onDelete(id);
-    navigate('/');
-  }
-
+function DeleteButton({ id, deleteNote }) {
   return (
     <button
       className="delete-button"
-      title="Hapus"
       onClick={() => {
-        onDeleteHandler(id);
+        deleteNote(id);
       }}
     >
       <FiTrash2 />
@@ -26,7 +17,7 @@ function DeleteButton({ id, onDelete }) {
 
 DeleteButton.propTypes = {
   id: PropTypes.string.isRequired,
-  onDelete: PropTypes.func.isRequired,
+  deleteNote: PropTypes.func.isRequired,
 };
 
 export default DeleteButton;

@@ -2,72 +2,62 @@ import React from 'react';
 import { useSearchParams } from 'react-router-dom';
 import SearchBar from '../component/SearchBar';
 import NoteList from '../component/NoteList';
-import { getArchivedNotes } from '../utils/local-data';
-import PropTypes from 'prop-types';
+import { getArchivedNotes } from '../utils/network-data';
+import LocaleContext from '../context/LocaleContext';
 
-function ArchivePageWrapper() {
+function ArchivePage() {
   const [searchParams, setSearchParam] = useSearchParams();
+  const [notes, setNotes] = React.useState([]);
+  const [keyword, setKeyword] = React.useState(() => {
+    return searchParams.get('keyword') || '';
+  });
+  const [initializing, setInitializing] = React.useState(true);
+  const { locale } = React.useContext(LocaleContext);
 
-  const keyword = searchParams.get('keyword');
+  React.useEffect(() => {
+    async function fetchNotesData() {
+      const { data } = await getArchivedNotes();
+      setNotes(data);
+      setInitializing(false);
+    }
 
-  function changeSearchParams(keyword) {
+    fetchNotesData();
+  }, []);
+
+  function onKeywordChangeHandler(keyword) {
+    setKeyword(keyword);
     setSearchParam({ keyword });
   }
 
-  return (
-    <ArchivePage defaultKeyword={keyword} keywordChange={changeSearchParams} />
-  );
-}
+  const filteredNotes = notes.filter((note) => {
+    return note.title.toLowerCase().includes(keyword.toLowerCase());
+  });
 
-class ArchivePage extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      notes: getArchivedNotes(),
-      keyword: props.defaultKeyword || '',
-    };
-
-    this.onKeywordChangeHandler = this.onKeywordChangeHandler.bind(this);
-  }
-
-  onKeywordChangeHandler(keyword) {
-    this.setState(() => {
-      return {
-        keyword,
-      };
-    });
-
-    this.props.keywordChange(keyword);
-  }
-
-  render() {
-    const notes = this.state.notes.filter((note) => {
-      return note.title
-        .toLowerCase()
-        .includes(this.state.keyword.toLowerCase());
-    });
-
+  if (initializing) {
     return (
       <section>
-        <h2>Catatan Aktif</h2>
-        <SearchBar
-          keyword={this.state.keyword}
-          keywordChange={this.onKeywordChangeHandler}
-        />
-        {notes.length > 0 ? (
-          <NoteList notes={notes} />
-        ) : (
-          <p className="empty-message">Arsip Kosong</p>
-        )}
+        <h2>{locale === 'id' ? 'Catatan Arsip' : 'Archived Notes'}</h2>
+        <SearchBar keyword={keyword} keywordChange={onKeywordChangeHandler} />
+        <p className="loading-message">
+          {locale === 'id' ? 'Memuat catatan ...' : 'Loading notes ...'}
+        </p>
       </section>
     );
   }
+
+  return (
+    <section>
+      <h2>{locale === 'id' ? 'Catatan Arsip' : 'Archived Notes'}</h2>
+      <SearchBar keyword={keyword} keywordChange={onKeywordChangeHandler} />
+      {filteredNotes.length > 0 ? (
+        <NoteList notes={filteredNotes} />
+      ) : (
+        <p className="empty-message">
+          {locale === 'id' ? 'Tidak ada catatan' : 'No notes'}
+        </p>
+      )}
+    </section>
+  );
 }
 
-ArchivePage.propTypes = {
-  defaultKeyword: PropTypes.string,
-  keywordChange: PropTypes.func.isRequired,
-};
-
-export default ArchivePageWrapper;
+export default ArchivePage;

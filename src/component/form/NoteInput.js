@@ -1,74 +1,65 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import useInput from '../../hooks/useInput';
+import LocaleContext from '../../context/LocaleContext';
 
-class NoteInput extends React.Component {
-  constructor(props) {
-    super(props);
+function NoteInput({ addNote }) {
+  const [counter, setCounter] = React.useState(50);
+  const [title, setTitle] = React.useState('');
+  const [body, onBodyChangeHandler] = useInput('');
+  const { locale } = React.useContext(LocaleContext);
 
-    this.state = {
-      counter: 50,
-      title: '',
-      body: '',
-    };
-
-    this.onTitleChangeHandler = this.onTitleChangeHandler.bind(this);
-    this.onBodyChangeHandler = this.onBodyChangeHandler.bind(this);
-    this.onSubmitHandler = this.onSubmitHandler.bind(this);
-  }
-
-  onTitleChangeHandler(event) {
+  function onTitleChangeHandler(event) {
     const max = 50;
     const titleInput = event.target.value.slice(0, max);
     const titleInputLength = titleInput.length;
 
-    this.setState((prevState) => {
-      return {
-        ...prevState,
-        title: titleInput,
-        counter: max - titleInputLength,
-      };
-    });
+    setTitle(titleInput);
+    setCounter(max - titleInputLength);
   }
 
-  onBodyChangeHandler(event) {
-    this.setState(() => {
-      return {
-        body: event.target.value,
-      };
-    });
-  }
-
-  onSubmitHandler(event) {
+  function onSubmitHandler(event) {
     event.preventDefault();
-    this.props.addNote(this.state);
+
+    const note = {
+      title: title,
+      body: body,
+    };
+
+    addNote(note);
   }
 
-  render() {
-    return (
-      <form className="note-input" onSubmit={this.onSubmitHandler}>
-        <p className="note-input__character-limit">
-          Sisa karakter: {this.state.counter}
-        </p>
-        <input
-          className="note-input__title"
-          type="text"
-          placeholder="Ini judul catatanmu ..."
-          value={this.state.title}
-          onChange={this.onTitleChangeHandler}
-        />
-        <textarea
-          className="note-input__body"
-          type="text"
-          placeholder="Tulis catatanmu disini ..."
-          value={this.state.body}
-          onChange={this.onBodyChangeHandler}
-        />
-        <button className="submit-button" type="submit">
-          Tambah
-        </button>
-      </form>
-    );
-  }
+  return (
+    <form className="note-input" onSubmit={onSubmitHandler}>
+      <p className="note-input__character-limit">
+        {locale === 'id' ? 'Sisa karakter: ' : 'Characters left: '}
+        {counter}
+      </p>
+      <input
+        className="note-input__title"
+        type="text"
+        placeholder={
+          locale === 'id' ? 'Judul Catatanmu ...' : "Your note's title ..."
+        }
+        value={title}
+        onChange={onTitleChangeHandler}
+      />
+      <textarea
+        className="note-input__body"
+        type="text"
+        placeholder={
+          locale === 'id'
+            ? 'Tulis catatanmu di sini ...'
+            : ' Write your note here ...'
+        }
+        value={body}
+        onChange={onBodyChangeHandler}
+      />
+      <button className="submit-button" type="submit">
+        {locale === 'id' ? 'Tambah' : 'Add'}
+      </button>
+    </form>
+  );
 }
 
 NoteInput.propTypes = {
