@@ -1,18 +1,21 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-// * TODO: Memanfaatkan controlled component dalam membangun fitur pencarian catatan
-function SearchBar({ keyword, onSearchChange }) {
-    return (
-        <section className='search-bar' >
-            <input
-                className='search-bar__input'
-                type="text"
-                placeholder="Cari catatanmu ..."
-                value={keyword}
-                onChange={(event) => onSearchChange(event)}
-            />
-        </section>
-    );
+function SearchBar({ keyword, keywordChange }) {
+  return (
+    <input
+      className="search-bar"
+      type="text"
+      placeholder="Cari catatanmu ..."
+      value={keyword}
+      onChange={(event) => keywordChange(event.target.value)}
+    />
+  );
 }
+
+SearchBar.propTypes = {
+  keyword: PropTypes.string.isRequired,
+  keywordChange: PropTypes.func.isRequired,
+};
 
 export default SearchBar;

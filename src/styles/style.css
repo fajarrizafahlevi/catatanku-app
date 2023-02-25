@@ -1,170 +1,170 @@
 * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    font-family: 'Jua', sans-serif;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Jua', sans-serif;
 }
 
 #root {
-    background-color: eee;
+  background-color: eee;
 }
 
-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: darkgreen;
-    color: white;
-    padding: 20px;
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: darkgreen;
+  padding: 18px;
 }
 
-.search-bar {
-    width: 50%;
+nav ul {
+  display: flex;
 }
 
-.search-bar__input {
-    width: 100%;
+nav li {
+  list-style: none;
+  margin-left: 18px;
+  font-size: x-large;
+}
+
+nav a {
+  display: flex;
+  align-items: flex-end;
+  text-decoration: none;
+  color: white;
+}
+
+section {
+  margin: 18px;
+  border: 2px solid gray;
+  border-radius: 18px;
+  padding: 18px;
 }
 
 h2 {
-    color: darkgreen;
+  color: darkgreen;
 }
 
 p {
-    font-size: small;
+  font-size: small;
 }
 
 form {
-    display: flex;
-    flex-direction: column;
-    margin: 20px;
-    border: 2px solid gray;
-    border-radius: 20px;
-    padding: 20px;
+  display: flex;
+  flex-direction: column;
 }
 
 input {
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 10px;
+  border: 2px solid gray;
+  border-radius: 12px;
+  padding: 12px;
 }
 
 .note-input__character-limit {
-    color: gray;
-    text-align: right;
-    margin-bottom: 5px;
+  color: gray;
+  text-align: right;
+  margin-bottom: 6px;
 }
 
-textarea {
-    height: 100px;
-    margin-top: 10px;
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 10px;
+.note-input__body {
+  height: 120px;
+  margin-top: 12px;
+  border: 2px solid gray;
+  border-radius: 12px;
+  padding: 12px;
 }
 
 button {
-    margin-top: 20px;
-    border: none;
-    color: white;
-    padding: 10px;
+  margin-top: 18px;
+  border: none;
 }
 
 button:hover {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .submit-button {
-    background-color: darkgreen;
-    border-radius: 10px;
-    width: 100%;
+  width: 100%;
+  border-radius: 12px;
+  background-color: darkgreen;
+  color: white;
+  padding: 12px;
 }
 
-.note-app__body {
-    max-width: 800px;
-    margin: 0 auto;
+.search-bar {
+  width: 100%;
+  margin-top: 18px;
 }
 
-.active-notes,
-.archived-notes {
-    margin: 20px;
-    border: 2px solid gray;
-    border-radius: 20px;
-    padding: 20px;
-}
-
-.active-notes__list,
-.archived-notes__list {
-    margin-top: 20px;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
+.note-list {
+  margin-top: 18px;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
 }
 
 .note-item {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    border: 2px solid gray;
-    border-radius: 10px;
-    padding: 20px;
+  display: flex;
+  flex-direction: column;
+  border: 2px solid gray;
+  border-radius: 12px;
+  padding: 18px;
+}
+
+.note-item__title a {
+  text-decoration: none;
+  color: black;
 }
 
 .note-item__date {
-    margin-top: 10px;
-    color: gray;
+  margin-top: 12px;
+  color: gray;
 }
 
 .note-item__body {
-    margin-top: 10px;
+  margin-top: 12px;
 }
 
 .note-item__action {
-    display: flex;
-    justify-content: right;
-}
-
-.delete-button {
-    border-radius: 7px;
-    background-color: darkred;
+  display: flex;
+  justify-content: right;
 }
 
 .archive-button {
-    margin-left: 10px;
-    border-radius: 7px;
-    background-color: darkorange;
+  display: flex;
+  align-items: flex-end;
+  background-color: white;
+  color: darkorange;
+  font-size: x-large;
+}
+
+.delete-button {
+  margin-left: 12px;
+  display: flex;
+  align-items: flex-end;
+  background-color: white;
+  color: darkred;
+  font-size: x-large;
 }
 
 .empty-message {
-    text-align: center;
+  margin-top: 18px;
+  text-align: center;
+}
+
+.not-found__message {
+  text-align: center;
 }
 
 @media (max-width: 600px) {
-
-    .active-notes__list,
-    .archived-notes__list {
-        grid-template-columns: repeat(2, 1fr);
-    }
+  .note-list {
+    grid-template-columns: repeat(2, 1fr);
+  }
 }
 
-@media (max-width: 450px) {
-    header {
-        flex-direction: column;
-        align-items: flex-start;
-    }
-
-    .search-bar {
-        width: 100%;
-    }
-
-    .search-bar__input {
-        margin-top: 10px;
-        width: 100%;
-    }
-
-    .active-notes__list,
-    .archived-notes__list {
-        display: flex;
-        flex-direction: column;
-    }
+@media (max-width: 480px) {
+  .note-list {
+    display: flex;
+    flex-direction: column;
+  }
 }

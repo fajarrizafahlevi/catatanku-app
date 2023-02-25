@@ -1,16 +1,36 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { FiFolderPlus, FiFolderMinus } from 'react-icons/fi';
+import PropTypes from 'prop-types';
 
-// * TODO: Menyediakan tombol arsipkan/pindahkan untuk mengarsipkan atau memindahkan catatan dari arsip
 function ArchiveButton({ id, onArchive, isArchived }) {
-    return (
-        <button className='archive-button' onClick={() => { onArchive(id) }}>
-            {
-                isArchived === false
-                    ? 'Arsipkan'
-                    : 'Pindahkan'
-            }
-        </button>
-    )
+  const navigate = useNavigate();
+
+  function onArchiveHandler(id) {
+    onArchive(id);
+    navigate('/');
+  }
+
+  return (
+    <button
+      className="archive-button"
+      onClick={() => {
+        onArchiveHandler(id);
+      }}
+    >
+      {isArchived === false ? (
+        <FiFolderPlus title="Arsipkan" />
+      ) : (
+        <FiFolderMinus title="Pindahkan" />
+      )}
+    </button>
+  );
 }
+
+ArchiveButton.propTypes = {
+  id: PropTypes.string.isRequired,
+  onArchive: PropTypes.func.isRequired,
+  isArchived: PropTypes.bool.isRequired,
+};
 
 export default ArchiveButton;
