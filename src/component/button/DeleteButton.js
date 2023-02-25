@@ -1,8 +1,32 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { FiTrash2 } from 'react-icons/fi';
+import PropTypes from 'prop-types';
 
-// TODO: Aplikasi harus menyediakan tombol hapus untuk menghapus data catatan yang disimpan
 function DeleteButton({ id, onDelete }) {
-    return <button className='delete-button' onClick={() => { onDelete(id) }}>Hapus</button>
+  const navigate = useNavigate();
+
+  function onDeleteHandler(id) {
+    onDelete(id);
+    navigate('/');
+  }
+
+  return (
+    <button
+      className="delete-button"
+      title="Hapus"
+      onClick={() => {
+        onDeleteHandler(id);
+      }}
+    >
+      <FiTrash2 />
+    </button>
+  );
 }
+
+DeleteButton.propTypes = {
+  id: PropTypes.string.isRequired,
+  onDelete: PropTypes.func.isRequired,
+};
 
 export default DeleteButton;
