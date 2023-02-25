@@ -1,20 +1,42 @@
+:root {
+  --font-color: #222;
+  --submit-color: #eee;
+  --button-color: #222;
+  --border-color: #444;
+  --background-color: #eee;
+}
+
+[data-theme='dark'] {
+  --font-color: #eee;
+  --submit-color: #222;
+  --button-color: #eee;
+  --border-color: #bbb;
+  --background-color: #222;
+}
+
 * {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  transition: background 0.3s ease-in;
   font-family: 'Jua', sans-serif;
 }
 
-#root {
-  background-color: eee;
+body {
+  background-color: var(--background-color);
+  color: var(--font-color);
+}
+
+.note-app__header {
+  padding: 18px;
+  border-bottom: 2px solid;
+  border-color: var(--border-color);
 }
 
 nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: darkgreen;
-  padding: 18px;
 }
 
 nav ul {
@@ -22,6 +44,8 @@ nav ul {
 }
 
 nav li {
+  display: flex;
+  align-items: center;
   list-style: none;
   margin-left: 18px;
   font-size: x-large;
@@ -29,24 +53,35 @@ nav li {
 
 nav a {
   display: flex;
-  align-items: flex-end;
+  align-items: center;
   text-decoration: none;
-  color: white;
+  color: var(--button-color);
+}
+
+.logout-button,
+.locale-button,
+.theme-button {
+  margin-left: 18px;
+  display: flex;
+  align-items: center;
+  font-size: x-large;
 }
 
 section {
   margin: 18px;
-  border: 2px solid gray;
+  border: 2px solid;
   border-radius: 18px;
+  border-color: var(--border-color);
   padding: 18px;
 }
 
 h2 {
-  color: darkgreen;
+  color: var(--font-color);
+  font-size: larger;
 }
 
 p {
-  font-size: small;
+  font-size: smaller;
 }
 
 form {
@@ -55,13 +90,17 @@ form {
 }
 
 input {
-  border: 2px solid gray;
+  margin-top: 12px;
+  border: 2px solid;
+  border-color: var(--border-color);
   border-radius: 12px;
+  background-color: var(--background-color);
   padding: 12px;
+  color: var(--font-color);
 }
 
 .note-input__character-limit {
-  color: gray;
+  color: var(--border-color);
   text-align: right;
   margin-bottom: 6px;
 }
@@ -69,14 +108,17 @@ input {
 .note-input__body {
   height: 120px;
   margin-top: 12px;
-  border: 2px solid gray;
+  border: 2px solid;
+  border-color: var(--border-color);
   border-radius: 12px;
+  background-color: var(--background-color);
   padding: 12px;
 }
 
 button {
-  margin-top: 18px;
   border: none;
+  background-color: transparent;
+  color: var(--button-color);
 }
 
 button:hover {
@@ -84,11 +126,20 @@ button:hover {
 }
 
 .submit-button {
+  margin-top: 18px;
   width: 100%;
   border-radius: 12px;
-  background-color: darkgreen;
-  color: white;
+  background-color: var(--button-color);
+  color: var(--submit-color);
   padding: 12px;
+}
+
+.register-login-link {
+  margin-top: 18px;
+}
+
+.register-login-link a {
+  color: var(--font-color);
 }
 
 .search-bar {
@@ -106,19 +157,20 @@ button:hover {
 .note-item {
   display: flex;
   flex-direction: column;
-  border: 2px solid gray;
+  border: 2px solid;
+  border-color: var(--border-color);
   border-radius: 12px;
   padding: 18px;
 }
 
 .note-item__title a {
   text-decoration: none;
-  color: black;
+  color: var(--font-color);
 }
 
 .note-item__date {
   margin-top: 12px;
-  color: gray;
+  color: var(--border-color);
 }
 
 .note-item__body {
@@ -130,26 +182,22 @@ button:hover {
   justify-content: right;
 }
 
-.archive-button {
-  display: flex;
-  align-items: flex-end;
-  background-color: white;
-  color: darkorange;
-  font-size: x-large;
-}
-
+.archive-button,
 .delete-button {
+  margin-top: 18px;
   margin-left: 12px;
   display: flex;
   align-items: flex-end;
-  background-color: white;
-  color: darkred;
+  background-color: transparent;
+  color: var(--button-color);
   font-size: x-large;
 }
 
+.loading-message,
 .empty-message {
   margin-top: 18px;
   text-align: center;
+  color: var(--border-color);
 }
 
 .not-found__message {
@@ -166,5 +214,16 @@ button:hover {
   .note-list {
     display: flex;
     flex-direction: column;
+  }
+}
+
+@media (max-width: 400px) {
+  nav {
+    flex-direction: column;
+  }
+
+  nav h2,
+  nav ul {
+    margin-top: 12px;
   }
 }

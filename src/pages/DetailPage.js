@@ -1,5 +1,5 @@
 import React from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import NoteDetail from '../component/NoteDetail';
 import NotFoundPage from './NotFoundPage';
 import {
@@ -7,66 +7,69 @@ import {
   deleteNote,
   archiveNote,
   unarchiveNote,
-} from '../utils/local-data';
-import PropTypes from 'prop-types';
+} from '../utils/network-data';
+import LocaleContext from '../context/LocaleContext';
 
-function DetailPageWrapper() {
+function DetailPage() {
+  const [note, setNote] = React.useState(null);
+  const [initializing, setInitializing] = React.useState(true);
+  const { locale } = React.useContext(LocaleContext);
   const { id } = useParams();
-  return <DetailPage id={id} />;
-}
+  const navigate = useNavigate();
 
-class DetailPage extends React.Component {
-  constructor(props) {
-    super(props);
+  React.useEffect(() => {
+    async function fetchNoteDetail() {
+      const { data } = await getNote(id);
 
-    this.state = {
-      note: getNote(props.id),
-    };
-
-    this.onDeleteHandler = this.onDeleteHandler.bind(this);
-    this.onArchiveHandler = this.onArchiveHandler.bind(this);
-  }
-
-  onDeleteHandler(id) {
-    deleteNote(id);
-
-    this.setState(() => {
-      return {
-        note: getNote(),
-      };
-    });
-  }
-
-  onArchiveHandler(id) {
-    this.state.note.archived === false ? archiveNote(id) : unarchiveNote(id);
-
-    this.setState(() => {
-      return {
-        note: getNote(),
-      };
-    });
-  }
-
-  render() {
-    if (this.state.note === undefined) {
-      return <NotFoundPage />;
+      setNote(data);
+      setInitializing(false);
     }
 
+    fetchNoteDetail();
+  });
+
+  async function onArchiveHandler(id) {
+    note.archived === false ? await archiveNote(id) : await unarchiveNote(id);
+
+    const { data } = await getNote();
+
+    setNote(data);
+    navigate('/');
+  }
+
+  async function onDeleteHandler(id) {
+    await deleteNote(id);
+
+    const { data } = await getNote();
+
+    setNote(data);
+    navigate('/');
+  }
+
+  if (initializing) {
     return (
-      <>
-        <NoteDetail
-          {...this.state.note}
-          onDelete={this.onDeleteHandler}
-          onArchive={this.onArchiveHandler}
-          isArchived={this.state.note.archived}
-        />
-      </>
+      <section>
+        <p className="loading-message" style={{ marginTop: 0 }}>
+          {locale === 'id' ? 'Memuat catatan ...' : 'Loading note ...'}
+        </p>
+      </section>
     );
   }
+
+  if (note === null) {
+    return <NotFoundPage />;
+  }
+
+  return (
+    <>
+      <NoteDetail
+        {...note}
+        isArchived={note.archived}
+        onArchive={onArchiveHandler}
+        deleteNote={onDeleteHandler}
+      />
+    </>
+  );
 }
 
-DetailPage.propTypes = {
-  id: PropTypes.string.isRequired,
-};
-
-export default DetailPageWrapper;
+export default DetailPage;

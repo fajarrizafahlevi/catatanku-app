@@ -8,9 +8,9 @@ function NoteDetail({
   title,
   createdAt,
   body,
-  onDelete,
-  onArchive,
   isArchived,
+  onArchive,
+  deleteNote,
 }) {
   return (
     <section className="note-item">
@@ -18,9 +18,9 @@ function NoteDetail({
       <NoteItemContent title={title} createdAt={createdAt} body={body} />
       <NoteItemAction
         id={id}
-        onDelete={onDelete}
-        onArchive={onArchive}
         isArchived={isArchived}
+        onArchive={onArchive}
+        deleteNote={deleteNote}
       />
     </section>
   );
@@ -31,9 +31,9 @@ NoteDetail.propTypes = {
   title: PropTypes.string.isRequired,
   createdAt: PropTypes.string.isRequired,
   body: PropTypes.string.isRequired,
-  onDelete: PropTypes.func.isRequired,
-  onArchive: PropTypes.func.isRequired,
   isArchived: PropTypes.bool.isRequired,
+  onArchive: PropTypes.func.isRequired,
+  deleteNote: PropTypes.func.isRequired,
 };
 
 export default NoteDetail;

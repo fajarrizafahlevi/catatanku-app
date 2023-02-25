@@ -1,36 +1,24 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { FiFolderPlus, FiFolderMinus } from 'react-icons/fi';
 import PropTypes from 'prop-types';
+import { FiFolderPlus, FiFolderMinus } from 'react-icons/fi';
 
-function ArchiveButton({ id, onArchive, isArchived }) {
-  const navigate = useNavigate();
-
-  function onArchiveHandler(id) {
-    onArchive(id);
-    navigate('/');
-  }
-
+function ArchiveButton({ id, isArchived, onArchive }) {
   return (
     <button
       className="archive-button"
       onClick={() => {
-        onArchiveHandler(id);
+        onArchive(id);
       }}
     >
-      {isArchived === false ? (
-        <FiFolderPlus title="Arsipkan" />
-      ) : (
-        <FiFolderMinus title="Pindahkan" />
-      )}
+      {isArchived === false ? <FiFolderPlus /> : <FiFolderMinus />}
     </button>
   );
 }
 
 ArchiveButton.propTypes = {
   id: PropTypes.string.isRequired,
-  onArchive: PropTypes.func.isRequired,
   isArchived: PropTypes.bool.isRequired,
+  onArchive: PropTypes.func.isRequired,
 };
 
 export default ArchiveButton;
