@@ -23,8 +23,7 @@ class App extends React.Component {
         theme: localStorage.getItem('theme') || 'light',
         toggleTheme: () => {
           this.setState((prevState) => {
-            const newTheme =
-              prevState.themeContext.theme === 'light' ? 'dark' : 'light';
+            const newTheme = prevState.themeContext.theme === 'light' ? 'dark' : 'light';
             localStorage.setItem('theme', newTheme);
             return {
               themeContext: {
@@ -39,8 +38,7 @@ class App extends React.Component {
         locale: localStorage.getItem('locale') || 'id',
         toggleLocale: () => {
           this.setState((prevState) => {
-            const newLocale =
-              prevState.localeContext.locale === 'id' ? 'en' : 'id';
+            const newLocale = prevState.localeContext.locale === 'id' ? 'en' : 'id';
             localStorage.setItem('locale', newLocale);
             return {
               localeContext: {
@@ -58,6 +56,7 @@ class App extends React.Component {
   }
 
   async componentDidMount() {
+    localStorage.setItem('locale', this.state.localeContext.locale);
     document.documentElement.setAttribute('data-theme', this.state.theme);
 
     const { data } = await getUserLogged();
@@ -72,10 +71,7 @@ class App extends React.Component {
 
   componentDidUpdate(prevProps, prevState) {
     if (prevState.themeContext.theme !== this.state.theme) {
-      document.documentElement.setAttribute(
-        'data-theme',
-        this.state.themeContext.theme
-      );
+      document.documentElement.setAttribute('data-theme', this.state.themeContext.theme);
     }
   }
 
@@ -120,8 +116,14 @@ class App extends React.Component {
                     path="/*"
                     element={<LoginPage loginSuccess={this.onLoginSuccess} />}
                   />
-                  <Route path="/register" element={<RegisterPage />} />
-                  <Route path="*" element={<NotFoundPage />} />
+                  <Route
+                    path="/register"
+                    element={<RegisterPage />}
+                  />
+                  <Route
+                    path="*"
+                    element={<NotFoundPage />}
+                  />
                 </Routes>
               </main>
             </div>
@@ -135,15 +137,33 @@ class App extends React.Component {
         <LocaleContext.Provider value={this.state.localeContext}>
           <div className="note-app">
             <header className="note-app__header">
-              <Navigation user={this.state.authedUser} logout={this.onLogout} />
+              <Navigation
+                user={this.state.authedUser}
+                logout={this.onLogout}
+              />
             </header>
             <main className="note-app__body">
               <Routes>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/notes/new" element={<AddPage />} />
-                <Route path="/archives" element={<ArchivePage />} />
-                <Route path="/notes/:id" element={<DetailPage />} />
-                <Route path="*" element={<NotFoundPage />} />
+                <Route
+                  path="/"
+                  element={<HomePage />}
+                />
+                <Route
+                  path="/notes/new"
+                  element={<AddPage />}
+                />
+                <Route
+                  path="/archives"
+                  element={<ArchivePage />}
+                />
+                <Route
+                  path="/notes/:id"
+                  element={<DetailPage />}
+                />
+                <Route
+                  path="*"
+                  element={<NotFoundPage />}
+                />
               </Routes>
             </main>
           </div>
